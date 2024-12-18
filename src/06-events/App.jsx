@@ -1,6 +1,10 @@
-function Header(props) {
+import PropTypes from "prop-types";
+
+// function Header(props) {
+function Header({ title, onChangeMode }) {
   //  title, onChangeMode
-  console.log("props", props);
+  //   console.log("props", props);
+  console.log("title", title);
   return (
     <header>
       <h1>
@@ -9,23 +13,38 @@ function Header(props) {
           href="/"
           onClick={(event) => {
             event.preventDefault(); //  이벤트 기본 동작 막음(폼 전송전에 막을 때도 사용)
-            props.onChangeMode();
+            onChangeMode();
           }}
         >
-          {props.title}
+          {title}
         </a>
       </h1>
     </header>
   );
 }
+Header.propTypes = {
+  title: PropTypes.string,
+  onChangeMode: PropTypes.func,
+};
 
-function Nav(props) {
-  const lis = [];
-  for (let i = 0; i < props.topics.length; i++) {
-    let t = props.topics[i];
+// function Nav(props) {
+function Nav({ topics, onChangeMode }) {
+  //  topics, onChangeMode
+  /*const lis = [];
+  for (let i = 0; i < topics.length; i++) {
+    let t = topics[i];
     lis.push(
       <li key={t.id}>
-        <a href={"/read/" + t.id}>{t.title}</a>
+        <a
+          id={t.id}
+          href={"/read/" + t.id}
+          onClick={(event) => {
+            event.preventDefault(); //  기본 동작 막기
+            onChangeMode(event.target.id);
+          }}
+        >
+          {t.title}
+        </a>
       </li>
     );
   }
@@ -34,7 +53,26 @@ function Nav(props) {
       <ol>{lis}</ol>
     </nav>
   );
+  */
+  return topics.map((topic) => (
+    <li key={topic.id}>
+      <a
+        id={topic.id}
+        href={"/read/" + topic.id}
+        onClick={(event) => {
+          event.preventDefault(); //  기본 동작 막기
+          onChangeMode(event.target.id);
+        }}
+      >
+        {topic.title}
+      </a>
+    </li>
+  ));
 }
+Nav.propTypes = {
+  topics: PropTypes.array,
+  onChangeMode: PropTypes.func,
+};
 
 function Article(props) {
   return (
@@ -44,6 +82,10 @@ function Article(props) {
     </article>
   );
 }
+Article.propTypes = {
+  title: PropTypes.string,
+  body: PropTypes.string,
+};
 
 function App() {
   const topics = [
@@ -61,7 +103,13 @@ function App() {
           alert("Header");
         }}
       ></Header>
-      <Nav topics={topics}></Nav>
+      {/* Nav의 각각의 타이틀 링크를 누르면 alert창이 뜨도록 */}
+      <Nav
+        topics={topics}
+        onChangeMode={(id) => {
+          alert(id);
+        }}
+      ></Nav>
       <Article title="Welcome" body="Hello, Web"></Article>
     </div>
   );
