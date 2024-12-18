@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import PropTypes from "prop-types";
 function Update(props) {
   //  title, body, onUpdate
   //   const title = props.title;
@@ -43,5 +43,9 @@ function Update(props) {
     </article>
   );
 }
-
+Update.propTypes = {
+  title: PropTypes.string,
+  body: PropTypes.string,
+  onUpdate: PropTypes.func,
+};
 export default Update;

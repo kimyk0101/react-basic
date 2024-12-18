@@ -1,4 +1,5 @@
-function Create(props) {
+import PropTypes from "prop-types";
+function Create({ onCreate }) {
   return (
     <article>
       <h2>Create</h2>
@@ -7,7 +8,7 @@ function Create(props) {
           event.preventDefault();
           const title = event.target.title.value;
           const body = event.target.body.value;
-          props.onCreate(title, body);
+          onCreate(title, body);
         }}
       >
         <p>
@@ -23,5 +24,7 @@ function Create(props) {
     </article>
   );
 }
-
+Create.propTypes = {
+  onCreate: PropTypes.func,
+};
 export default Create;
