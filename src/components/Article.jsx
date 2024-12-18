@@ -9,6 +9,6 @@ function Article({ title, body }) {
 }
 Article.propTypes = {
   title: PropTypes.string,
-  body: PropTypes.body,
+  body: PropTypes.string,
 };
 export default Article;

@@ -9,7 +9,7 @@ function Nav({ topics, onChangeMode }) {
           <li key={topic.id}>
             <a
               id={topic.id}
-              href={"/read/" + t.id}
+              href={"/read/" + topic.id}
               onClick={(event) => {
                 event.preventDefault();
                 onChangeMode(Number(event.target.id));
