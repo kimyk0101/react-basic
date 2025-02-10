@@ -1,0 +1,41 @@
+# 멀티 스테이지 빌드
+# Stage 1: 리액트 프로덕션 앱 빌드
+FROM node:22 AS build
+
+# 작업 디렉터리 설정
+WORKDIR /app
+
+# package*.json 복사
+COPY package*.json .
+
+# npm install
+RUN npm install
+
+# 소스 복사
+COPY . .
+
+# 프로덕션 빌드 생성
+RUN npm run build
+
+## Stage 2: 리액트 앱 서빙
+
+# base imaage 설정
+FROM nginx:alpine
+
+# build로부터 /app/dist -> /usr/share/nginx/html로 복사
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# 80 포트 노출
+EXPOSE 80
+
+# 웹서버 실행
+CMD ["nginx", "-g", "daemon off;"]
+
+# build
+# docker build -t react-app-prod -f Dockerfile.prod .
+
+# 실행
+# docker run -it -p 80:80 --name react-app-prod react-app-prod
+
+# 실제 배포
+# docker run -d -p 80:80 --name react-app-prod react-app-prod
